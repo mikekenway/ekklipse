@@ -4,6 +4,7 @@ import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { Copy, Download, Share2 } from "lucide-react";
 import { useTheme } from "next-themes";
+import ReactMarkdown from "react-markdown";
 
 export interface Snippet {
   _id: string;
@@ -68,7 +69,11 @@ export function SnippetClient({ snippet }: { snippet: Snippet }) {
           </Button>
         </div>
       </div>
-      {snippet.language === "markdown" || snippet.language === "text" ? (
+      {snippet.language === "markdown" ? (
+        <div className="prose dark:prose-invert rounded-2xl border border-foreground/20 p-4 overflow-auto">
+          <ReactMarkdown>{snippet.content}</ReactMarkdown>
+        </div>
+      ) : snippet.language === "text" ? (
         <pre className="rounded-2xl border border-foreground/20 p-4 whitespace-pre-wrap">
           {snippet.content}
         </pre>

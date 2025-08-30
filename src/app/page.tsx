@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useTheme } from 'next-themes';
-import { Copy, Download, MoonStar, Share2 } from 'lucide-react';
+import { Copy, Download, MoonStar, Share2, Trash2 } from 'lucide-react';
 import { useMutation, useQuery } from 'convex/react';
 import Link from 'next/link';
 
@@ -39,16 +39,17 @@ const languages = [
 
 export default function Home() {
   const { theme } = useTheme();
-  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
   const [language, setLanguage] = useState('markdown');
   const [content, setContent] = useState('');
   const snippets = useQuery<Snippet[]>('snippets:list') || [];
   const createSnippet = useMutation('snippets:create');
+  const deleteSnippet = useMutation('snippets:remove');
 
   const saveSnippet = async () => {
-    if (!title.trim() || !content.trim()) return;
-    await createSnippet({ name: title, language, content });
-    setTitle('');
+    if (!name.trim() || !content.trim()) return;
+    await createSnippet({ name, language, content });
+    setName('');
     setContent('');
   };
 
@@ -94,9 +95,9 @@ export default function Home() {
           <div className='flex flex-row gap-2'>
             <Input
               className='rounded-md'
-              placeholder='Snippet title'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              placeholder='name'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <Select value={language} onValueChange={setLanguage}>
               <SelectTrigger className='rounded-md w-1/4'>
@@ -111,7 +112,7 @@ export default function Home() {
               </SelectContent>
             </Select>
           </div>
-          {language === 'markdown' || language === 'text' ? (
+          {language === 'text' ? (
             <Textarea
               className='h-[20vh] resize-y rounded-md'
               value={content}
@@ -161,6 +162,14 @@ export default function Home() {
                 </Button>
                 <Button variant='ghost' size='icon' onClick={() => share(snip)}>
                   <Share2 className='h-4 w-4' />
+                </Button>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  onClick={() => deleteSnippet({ id: snip._id })}
+                  className='group'
+                >
+                  <Trash2 className='h-4 w-4 group-hover:text-red-500' />
                 </Button>
               </div>
             </div>
