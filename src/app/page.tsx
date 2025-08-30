@@ -166,7 +166,7 @@ export default function Home() {
                 </div>
               )}
               <div className='flex justify-end'>
-                <Button className='rounded-md' onClick={saveSnippet}>
+                <Button className='rounded-md cursor-pointer' onClick={saveSnippet}>
                   Save Klip
                 </Button>
               </div>
