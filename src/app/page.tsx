@@ -49,7 +49,7 @@ export default function Home() {
     });
     if (res.ok) {
       const data = await res.json();
-      setSnippets((prev) => [...prev, data]);
+      setSnippets((prev) => [data, ...prev]);
       setTitle("");
       setContent("");
     }
@@ -108,14 +108,18 @@ export default function Home() {
               </option>
             ))}
           </select>
-          <div className="rounded-xl border border-foreground/20 overflow-hidden">
+          <div className="h-[20vh] resize-y rounded-xl border border-foreground/20 overflow-hidden">
             <Editor
-              height="40vh"
+              height="100%"
               theme={theme === "dark" ? "vs-dark" : "light"}
               language={language}
               value={content}
               onChange={(v) => setContent(v ?? "")}
-              options={{ minimap: { enabled: false }, lineNumbers: "on" }}
+              options={{
+                minimap: { enabled: false },
+                lineNumbers: "on",
+                automaticLayout: true,
+              }}
             />
           </div>
           <div className="flex justify-end">
@@ -130,9 +134,14 @@ export default function Home() {
               key={snip.id}
               className="relative rounded-2xl border border-foreground/20 p-4"
             >
-              <a href={`/${snip.slug}`} className="font-medium">
-                {snip.name}
-              </a>
+              <div className="flex items-center justify-between pr-24">
+                <a href={`/${snip.slug}`} className="font-medium">
+                  {snip.name}
+                </a>
+                <span className="text-sm text-foreground/60">
+                  {snip.language}
+                </span>
+              </div>
               <div className="absolute top-2 right-2 flex gap-1">
                 <Button
                   variant="ghost"

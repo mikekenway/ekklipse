@@ -2,9 +2,13 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { snippets } from "@/lib/schema";
 import { nanoid } from "nanoid";
+import { desc } from "drizzle-orm";
 
 export async function GET() {
-  const data = await db.select().from(snippets).orderBy(snippets.createdAt);
+  const data = await db
+    .select()
+    .from(snippets)
+    .orderBy(desc(snippets.createdAt));
   return NextResponse.json(data);
 }
 
