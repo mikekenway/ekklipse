@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ConvexProviderWrapper } from "@/components/convex-provider";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,14 +29,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <div className="min-h-screen relative">
-            <div className="absolute top-4 right-4">
-              <ThemeToggle />
+        <ConvexProviderWrapper>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+            <div className="min-h-screen flex flex-col">
+              <header className="flex items-center justify-between p-4">
+                <Link href="/" className="font-bold">
+                  ek(klip)se
+                </Link>
+                <ThemeToggle />
+              </header>
+              <main className="flex-1">{children}</main>
             </div>
-            <main className="min-h-screen">{children}</main>
-          </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </ConvexProviderWrapper>
       </body>
     </html>
   );

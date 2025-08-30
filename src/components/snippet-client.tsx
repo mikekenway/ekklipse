@@ -6,12 +6,12 @@ import { Copy, Download, Share2 } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export interface Snippet {
-  id: number;
+  _id: string;
   slug: string;
   name: string;
   language: string;
   content: string;
-  createdAt: Date;
+  createdAt: number;
 }
 
 export function SnippetClient({ snippet }: { snippet: Snippet }) {

@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "next-themes";
 import { Copy, Download, Share2 } from "lucide-react";
+import { useMutation, useQuery } from "convex/react";
+import Link from "next/link";
 
 interface Snippet {
-  id: number;
+  _id: string;
   slug: string;
   name: string;
   language: string;
@@ -32,27 +34,14 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("typescript");
   const [content, setContent] = useState("");
-  const [snippets, setSnippets] = useState<Snippet[]>([]);
-
-  useEffect(() => {
-    fetch("/api/snippets")
-      .then((res) => res.json())
-      .then(setSnippets);
-  }, []);
+  const snippets = useQuery<Snippet[]>("snippets:list") || [];
+  const createSnippet = useMutation("snippets:create");
 
   const saveSnippet = async () => {
     if (!title.trim() || !content.trim()) return;
-    const res = await fetch("/api/snippets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: title, language, content }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setSnippets((prev) => [data, ...prev]);
-      setTitle("");
-      setContent("");
-    }
+    await createSnippet({ name: title, language, content });
+    setTitle("");
+    setContent("");
   };
 
   const download = (snip: Snippet) => {
@@ -131,13 +120,13 @@ export default function Home() {
         <div className="space-y-2">
           {snippets.map((snip) => (
             <div
-              key={snip.id}
+              key={snip._id}
               className="relative rounded-2xl border border-foreground/20 p-4"
             >
               <div className="flex items-center justify-between pr-24">
-                <a href={`/${snip.slug}`} className="font-medium">
+                <Link href={`/${snip.slug}`} className="font-medium">
                   {snip.name}
-                </a>
+                </Link>
                 <span className="text-sm text-foreground/60">
                   {snip.language}
                 </span>
