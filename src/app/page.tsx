@@ -78,6 +78,8 @@ export default function Home() {
     await createSnippet({ name: title, language, content });
     setTitle('');
     setContent('');
+    setLanguage('markdown');
+    setShowNew(false);
   };
 
   const download = (snip: Snippet) => {
