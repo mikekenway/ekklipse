@@ -4,9 +4,11 @@ import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { Copy, Download, Share2 } from "lucide-react";
 import { useTheme } from "next-themes";
+import ReactMarkdown from "react-markdown";
+import type { Id } from "../../convex/_generated/dataModel";
 
 export interface Snippet {
-  _id: string;
+  _id: Id<"snippets">;
   slug: string;
   name: string;
   language: string;
@@ -68,7 +70,11 @@ export function SnippetClient({ snippet }: { snippet: Snippet }) {
           </Button>
         </div>
       </div>
-      {snippet.language === "markdown" || snippet.language === "text" ? (
+      {snippet.language === "markdown" ? (
+        <div className="rounded-2xl border border-foreground/20 p-4">
+          <ReactMarkdown>{snippet.content}</ReactMarkdown>
+        </div>
+      ) : snippet.language === "text" ? (
         <pre className="rounded-2xl border border-foreground/20 p-4 whitespace-pre-wrap">
           {snippet.content}
         </pre>

@@ -18,19 +18,20 @@ import {
   Download,
   Moon,
   MoonStar,
-  Share2,
-  ChevronDown,
   PlusIcon,
   MinusIcon,
   ShareIcon,
+  Trash,
 } from 'lucide-react';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api';
+import type { Id } from '../../convex/_generated/dataModel';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
 
 interface Snippet {
-  _id: string;
+  _id: Id<'snippets'>;
   slug: string;
   name: string;
   language: string;
@@ -64,10 +65,11 @@ const extMap: Record<string, string> = {
 export default function Home() {
   const { theme } = useTheme();
   const [title, setTitle] = useState('');
-  const [language, setLanguage] = useState('markdown');
+  const [language, setLanguage] = useState('text');
   const [content, setContent] = useState('');
   const snippets = useQuery(api.snippets.list) || [];
   const createSnippet = useMutation(api.snippets.create);
+  const deleteSnippet = useMutation(api.snippets.remove);
   const [showNew, setShowNew] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -109,7 +111,7 @@ export default function Home() {
         <div className='rounded-xl border border-foreground/20 overflow-hidden'>
           <button
             onClick={() => setShowNew(!showNew)}
-            className='flex w-full items-center justify-between p-4'
+            className='flex w-full items-center justify-between p-4 cursor-pointer hover:bg-foreground/5 transition-colors'
           >
             <span className='flex items-center gap-2'>
               <Moon className='h-5 w-5' />
@@ -122,7 +124,7 @@ export default function Home() {
               <div className='flex flex-row gap-2'>
                 <Input
                   className='h-10 rounded-md'
-                  placeholder='Snippet title'
+                  placeholder='Name'
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -139,7 +141,7 @@ export default function Home() {
                   </SelectContent>
                 </Select>
               </div>
-              {language === 'markdown' || language === 'text' ? (
+              {language === 'text' ? (
                 <Textarea
                   className='h-[20vh] resize-y rounded-md'
                   value={content}
@@ -224,11 +226,26 @@ export default function Home() {
                   >
                     <ShareIcon className='size-4' />
                   </Button>
+                  <Button
+                    className='icon-hover hover:text-red-500'
+                    variant='ghost'
+                    size='icon'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteSnippet({ id: snip._id });
+                    }}
+                  >
+                    <Trash className='size-4' />
+                  </Button>
                 </div>
               </div>
               {expandedId === snip._id && (
                 <div className='mt-4'>
-                  {snip.language === 'markdown' || snip.language === 'text' ? (
+                  {snip.language === 'markdown' ? (
+                    <div className='rounded-md border border-foreground/20 p-4'>
+                      <ReactMarkdown>{snip.content}</ReactMarkdown>
+                    </div>
+                  ) : snip.language === 'text' ? (
                     <pre className='rounded-md border border-foreground/20 p-4 whitespace-pre-wrap'>
                       {snip.content}
                     </pre>

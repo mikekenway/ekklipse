@@ -37,3 +37,10 @@ export const create = mutation({
     return await ctx.db.get(id);
   },
 });
+
+export const remove = mutation({
+  args: { id: v.id("snippets") },
+  handler: async (ctx, { id }) => {
+    await ctx.db.delete(id);
+  },
+});
