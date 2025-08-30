@@ -1,0 +1,9 @@
+{
+  "projectConfig": {
+    "projectId": "valiant-alpaca-954"
+  },
+  "dependencies": {
+    "convex": "^1.26.2"
+  },
+  "importMap": "./importMap.json"
+}

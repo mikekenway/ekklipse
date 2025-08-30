@@ -1,4 +1,4 @@
-import { mutation, query } from "convex/server";
+import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { nanoid } from "nanoid";
 
@@ -10,10 +10,10 @@ export const list = query({
 
 export const get = query({
   args: { slug: v.string() },
-  handler: async (ctx, { slug }) => {
+  handler: async (ctx, args) => {
     return await ctx.db
       .query("snippets")
-      .withIndex("slug", (q) => q.eq("slug", slug))
+      .withIndex("slug", (q) => q.eq("slug", args.slug))
       .unique();
   },
 });
@@ -24,13 +24,13 @@ export const create = mutation({
     language: v.string(),
     content: v.string(),
   },
-  handler: async (ctx, { name, language, content }) => {
+  handler: async (ctx, args) => {
     const slug = nanoid();
     const now = Date.now();
     const id = await ctx.db.insert("snippets", {
-      name,
-      language,
-      content,
+      name: args.name,
+      language: args.language,
+      content: args.content,
       slug,
       createdAt: now,
     });

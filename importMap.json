@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "convex": "./node_modules/convex/src/index.js",
+    "convex/values": "./node_modules/convex/src/values.js",
+    "convex/server": "./node_modules/convex/src/server/index.js"
+  }
+}
