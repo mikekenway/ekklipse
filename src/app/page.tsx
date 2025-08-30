@@ -76,6 +76,8 @@ export default function Home() {
     await createSnippet({ name: title, language, content });
     setTitle('');
     setContent('');
+    setLanguage('markdown');
+    setShowNew(false);
   };
 
   const download = (snip: Snippet) => {
@@ -109,7 +111,7 @@ export default function Home() {
         <div className='rounded-xl border border-foreground/20 overflow-hidden'>
           <button
             onClick={() => setShowNew(!showNew)}
-            className='flex w-full items-center justify-between p-4'
+            className='flex w-full items-center justify-between p-4 cursor-pointer hover:bg-foreground/5 transition-colors'
           >
             <span className='flex items-center gap-2'>
               <Moon className='h-5 w-5' />
