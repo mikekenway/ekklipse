@@ -20,6 +20,9 @@ import {
   MoonStar,
   Share2,
   ChevronDown,
+  PlusIcon,
+  MinusIcon,
+  ShareIcon,
 } from 'lucide-react';
 import { useMutation, useQuery } from 'convex/react';
 import Link from 'next/link';
@@ -98,7 +101,8 @@ export default function Home() {
     <div className='min-h-screen flex flex-col items-center pt-24 p-4'>
       <h1 className='mb-8 text-5xl font-bold flex items-center gap-2'>
         <MoonStar className='size-14 mr-2' />
-        <span className='text-foreground/60'>ek</span>(klip)<span className='text-foreground/60'>se</span>
+        <span className='text-foreground/60'>ek</span>(klip)
+        <span className='text-foreground/60'>se</span>
       </h1>
       <div className='w-full max-w-3xl space-y-8'>
         <div className='rounded-xl border border-foreground/20 overflow-hidden'>
@@ -110,12 +114,7 @@ export default function Home() {
               <Moon className='h-5 w-5' />
               New Klip
             </span>
-            <ChevronDown
-              className={cn(
-                'h-4 w-4 transition-transform',
-                showNew && 'rotate-180'
-              )}
-            />
+            {showNew ? <MinusIcon className='size-4' /> : <PlusIcon className='size-4' />}
           </button>
           {showNew && (
             <div className='flex flex-col space-y-4 border-t border-foreground/20 p-6 bg-background'>
@@ -173,9 +172,7 @@ export default function Home() {
           {snippets.map((snip) => (
             <div
               key={snip._id}
-              onClick={() =>
-                setExpandedId(expandedId === snip._id ? null : snip._id)
-              }
+              onClick={() => setExpandedId(expandedId === snip._id ? null : snip._id)}
               className={cn(
                 'rounded-2xl border border-foreground/20 p-4 cursor-pointer hover:bg-foreground/5 transition-colors',
                 expandedId === snip._id && 'bg-foreground/10'
@@ -194,6 +191,7 @@ export default function Home() {
                     {extMap[snip.language] ?? snip.language}
                   </span>
                   <Button
+                    className='icon-hover'
                     variant='ghost'
                     size='icon'
                     onClick={(e) => {
@@ -204,6 +202,7 @@ export default function Home() {
                     <Copy className='h-4 w-4' />
                   </Button>
                   <Button
+                    className='icon-hover'
                     variant='ghost'
                     size='icon'
                     onClick={(e) => {
@@ -211,9 +210,10 @@ export default function Home() {
                       download(snip);
                     }}
                   >
-                    <Download className='h-4 w-4' />
+                    <Download className='size-4' />
                   </Button>
                   <Button
+                    className='icon-hover'
                     variant='ghost'
                     size='icon'
                     onClick={(e) => {
@@ -221,7 +221,7 @@ export default function Home() {
                       share(snip);
                     }}
                   >
-                    <Share2 className='h-4 w-4' />
+                    <ShareIcon className='size-4' />
                   </Button>
                 </div>
               </div>
