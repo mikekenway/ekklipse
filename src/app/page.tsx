@@ -25,6 +25,7 @@ import {
   ShareIcon,
 } from 'lucide-react';
 import { useMutation, useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -65,8 +66,8 @@ export default function Home() {
   const [title, setTitle] = useState('');
   const [language, setLanguage] = useState('markdown');
   const [content, setContent] = useState('');
-  const snippets = useQuery<Snippet[]>('snippets:list') || [];
-  const createSnippet = useMutation('snippets:create');
+  const snippets = useQuery(api.snippets.list) || [];
+  const createSnippet = useMutation(api.snippets.create);
   const [showNew, setShowNew] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
