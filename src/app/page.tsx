@@ -99,7 +99,7 @@ export default function Home() {
 
   return (
     <div className='min-h-screen flex flex-col items-center pt-24 p-4'>
-      <h1 className='mb-8 text-5xl font-bold flex items-center gap-2'>
+      <h1 className='my-30 text-5xl font-bold flex items-center gap-2'>
         <MoonStar className='size-14 mr-2' />
         <span className='text-foreground/60'>ek</span>(klip)
         <span className='text-foreground/60'>se</span>
