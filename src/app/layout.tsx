@@ -28,11 +28,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <div className="min-h-screen flex flex-col">
-            <header className="p-4 flex justify-end">
+          <div className="min-h-screen relative">
+            <div className="absolute top-4 right-4">
               <ThemeToggle />
-            </header>
-            <main className="flex-1 container mx-auto p-4">{children}</main>
+            </div>
+            <main className="min-h-screen">{children}</main>
           </div>
         </ThemeProvider>
       </body>

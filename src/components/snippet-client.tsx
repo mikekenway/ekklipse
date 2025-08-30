@@ -49,28 +49,34 @@ export function SnippetClient({ snippet }: { snippet: Snippet }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-4">
+    <div className="min-h-screen flex flex-col justify-center max-w-4xl mx-auto p-4 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">{snippet.name}</h1>
         <div className="flex gap-2">
-          <Button variant="outline" size="icon" onClick={() => navigator.clipboard.writeText(snippet.content)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigator.clipboard.writeText(snippet.content)}
+          >
             <Copy className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" onClick={download}>
+          <Button variant="ghost" size="icon" onClick={download}>
             <Download className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" onClick={share}>
+          <Button variant="ghost" size="icon" onClick={share}>
             <Share2 className="h-4 w-4" />
           </Button>
         </div>
       </div>
-      <Editor
-        value={snippet.content}
-        language={snippet.language}
-        theme={theme === "dark" ? "vs-dark" : "light"}
-        options={{ readOnly: true, minimap: { enabled: false } }}
-        height="60vh"
-      />
+      <div className="rounded-2xl border border-foreground/20 overflow-hidden">
+        <Editor
+          value={snippet.content}
+          language={snippet.language}
+          theme={theme === "dark" ? "vs-dark" : "light"}
+          options={{ readOnly: true, minimap: { enabled: false } }}
+          height="60vh"
+        />
+      </div>
     </div>
   );
 }
