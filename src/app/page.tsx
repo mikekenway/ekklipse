@@ -173,14 +173,14 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className='space-y-2'>
+        <div className=''>
           {snippets.map((snip) => (
             <div
               key={snip._id}
               onClick={() => setExpandedId(expandedId === snip._id ? null : snip._id)}
               className={cn(
-                'rounded-2xl border border-foreground/20 p-4 cursor-pointer hover:bg-foreground/5 transition-colors',
-                expandedId === snip._id && 'bg-foreground/10'
+                'rounded-md border border-foreground/20 p-2 pl-4 cursor-pointer hover:bg-foreground/5 transition-colors mb-4',
+                expandedId === snip._id && 'bg-foreground/10 pb-6'
               )}
             >
               <div className='flex items-center justify-between'>
@@ -204,7 +204,7 @@ export default function Home() {
                       navigator.clipboard.writeText(snip.content);
                     }}
                   >
-                    <Copy className='h-4 w-4' />
+                    <Copy className='size-4' />
                   </Button>
                   <Button
                     className='icon-hover'
@@ -248,7 +248,7 @@ export default function Home() {
                       <ReactMarkdown>{snip.content}</ReactMarkdown>
                     </div>
                   ) : snip.language === 'text' ? (
-                    <pre className='rounded-md border border-foreground/20 p-4 whitespace-pre-wrap'>
+                    <pre className='rounded-md border border-foreground/20 p-4 whitespace-pre-wrap mr-2'>
                       {snip.content}
                     </pre>
                   ) : (
