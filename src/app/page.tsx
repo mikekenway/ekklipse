@@ -151,18 +151,32 @@ export default function Home() {
                 />
               ) : (
                 <div className='h-[20vh] resize-y rounded-xl border border-foreground/20 overflow-hidden'>
-                  <Editor
-                    height='100%'
-                    theme={theme === 'dark' ? 'vs-dark' : 'light'}
-                    language={language}
-                    value={content}
-                    onChange={(v) => setContent(v ?? '')}
-                    options={{
-                      minimap: { enabled: false },
-                      lineNumbers: 'on',
-                      automaticLayout: true,
-                    }}
-                  />
+                  <div className='px-2 py-4 h-full'>
+                    <Editor
+                      height='100%'
+                      language={language}
+                      value={content}
+                      onChange={(v) => setContent(v ?? '')}
+                      options={{
+                        minimap: { enabled: false },
+                        lineNumbers: 'on',
+                        automaticLayout: true,
+                        fontSize: 16,
+                        lineHeight: 24,
+                      }}
+                      beforeMount={(monaco) => {
+                        monaco.editor.defineTheme('black-theme', {
+                          base: 'vs-dark',
+                          inherit: true,
+                          rules: [],
+                          colors: {
+                            'editor.background': '#000000',
+                          },
+                        });
+                      }}
+                      theme='black-theme'
+                    />
+                  </div>
                 </div>
               )}
               <div className='flex justify-end'>
@@ -253,13 +267,30 @@ export default function Home() {
                     </pre>
                   ) : (
                     <div className='rounded-md border border-foreground/20 overflow-hidden'>
-                      <Editor
-                        value={snip.content}
-                        language={snip.language}
-                        theme={theme === 'dark' ? 'vs-dark' : 'light'}
-                        options={{ readOnly: true, minimap: { enabled: false } }}
-                        height='40vh'
-                      />
+                      <div className='px-2 py-4'>
+                        <Editor
+                          value={snip.content}
+                          language={snip.language}
+                          options={{
+                            readOnly: true,
+                            minimap: { enabled: false },
+                            fontSize: 14,
+                            lineHeight: 24,
+                          }}
+                          beforeMount={(monaco) => {
+                            monaco.editor.defineTheme('black-theme', {
+                              base: 'vs-dark',
+                              inherit: true,
+                              rules: [],
+                              colors: {
+                                'editor.background': '#000000',
+                              },
+                            });
+                          }}
+                          theme='black-theme'
+                          height='40vh'
+                        />
+                      </div>
                     </div>
                   )}
                 </div>
