@@ -109,14 +109,14 @@ export default function Home() {
         <span className='text-foreground/60'>ek</span>(klip)
         <span className='text-foreground/60'>se</span>
       </h1>
-      <div className='w-full max-w-3xl space-y-8'>
+      <div className='w-full max-w-3xl space-y-4'>
         <div className='rounded-xl border border-foreground/20 overflow-hidden'>
           <button
             onClick={() => setShowNew(!showNew)}
             className='flex w-full items-center justify-between p-4 cursor-pointer hover:bg-foreground/5 transition-colors'
           >
             <span className='flex items-center gap-2'>
-              <Moon className='h-5 w-5' />
+              <Moon className='size-5' />
               New Klip
             </span>
             {showNew ? <MinusIcon className='size-4' /> : <PlusIcon className='size-4' />}
