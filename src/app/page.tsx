@@ -191,13 +191,15 @@ export default function Home() {
           {snippets.map((snip) => (
             <div
               key={snip._id}
-              onClick={() => setExpandedId(expandedId === snip._id ? null : snip._id)}
               className={cn(
-                'rounded-md border border-foreground/20 p-2 pl-4 cursor-pointer hover:bg-foreground/5 transition-colors mb-4',
+                'rounded-md border border-foreground/20 p-2 pl-4 transition-colors mb-4',
                 expandedId === snip._id && 'bg-foreground/10 pb-6'
               )}
             >
-              <div className='flex items-center justify-between'>
+              <div
+                className='flex items-center justify-between cursor-pointer hover:bg-foreground/5 rounded-md'
+                onClick={() => setExpandedId(expandedId === snip._id ? null : snip._id)}
+              >
                 <Link
                   href={`/${snip.slug}`}
                   className='font-medium'
